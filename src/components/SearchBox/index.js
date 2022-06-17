@@ -22,6 +22,7 @@ const SearchBox = ({ handleChange, inputVal}) => {
                 />
             <Input
                 type="text"
+                // value={inputVal}
                 value={inputVal}
                 width="100%"
                 size="lg"

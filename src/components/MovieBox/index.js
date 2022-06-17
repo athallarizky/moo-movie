@@ -1,11 +1,20 @@
 import React from "react";
+import { useHistory } from 'react-router-dom'
+
 import { Box, Text, Tag } from "@chakra-ui/react";
 import { text_truncate  } from 'utils/textTruncate'
 
 const MovieBox = (movieData) => {
-    // console.log("movieData", movieData);
+    const history = useHistory()
+
+    const handleRedirect = () => {
+        history.push({
+            pathname:`/detail/${movieData?.imdbID}`
+        })
+    }
     return (
         <Box
+            onClick={handleRedirect}
             background="#FFF"
             shadow="lg"
             marginRight="2vh !important"

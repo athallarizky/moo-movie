@@ -1,23 +1,33 @@
 import React, { useRef, useCallback, useState, useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux'
+import { set_movies, set_search_key, set_page } from 'redux/actions/movies'
+// Libraries
 import { Box } from "@chakra-ui/react";
-
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import MovieBox from "components/MovieBox";
-import SearchBox from "components/SearchBox";
+// Custom Hooks
 import useMovieSearch from "hooks/useMovieSearch";
 
 // Components
+import MovieBox from "components/MovieBox";
+import SearchBox from "components/SearchBox";
 
 const Landing = () => {
-    const [query, setQuery] = useState("");
-    const [pageNumber, setPageNumber] = useState(1);
-    // const toast = useToast()
+    // const [query, setQuery] = useState("");
+    // const [pageNumber, setPageNumber] = useState(1);
+    const dispatch = useDispatch()
+    const { searchKey, activePage } = useSelector(state => state.movies)
+
     const { movies, loading, error, totalResult } = useMovieSearch(
-        query,
-        pageNumber
+        activePage
     );
+
+    useEffect(() => {
+        if(movies?.length){
+            window.localStorage.setItem("movies", JSON.stringify(movies))
+        }
+    }, [movies])
 
     useEffect(() => {
         if (loading && movies.length) {
@@ -48,21 +58,26 @@ const Landing = () => {
     const observer = useRef();
     const lastMovieElement = useCallback(
         (node) => {
+            console.log("DASADSADSASDADS")
             if (loading) return;
             if (observer.current) observer.current.disconnect();
             observer.current = new IntersectionObserver((entries) => {
                 if (entries[0].isIntersecting && (totalResult !== movies.length)) {
-                    setPageNumber((prevPageNumber) => prevPageNumber + 1);
+                    console.log('activePage', activePage)
+                    dispatch(set_page(activePage + 1))
+                    // setPageNumber(activePage + 1);
                 }
             });
             if (node) observer.current.observe(node);
         },
-        [loading, movies, totalResult]
+        [loading, movies, totalResult, activePage]
     );
 
     function handleSearch(e) {
-        setQuery(e.target.value);
-        setPageNumber(1);
+        dispatch(set_search_key(e.target.value))
+        dispatch(set_page(activePage + 1))
+        // setQuery(e.target.value);
+        // setPageNumber(1);
     }
 
     return (
@@ -72,7 +87,7 @@ const Landing = () => {
                 width="60%"
                 margin="0 auto 3vh !important"
             >
-                <SearchBox handleChange={handleSearch} inputVal={query} />
+                <SearchBox handleChange={handleSearch} inputVal={searchKey} />
             </Box>
 
             <Box
@@ -91,45 +106,34 @@ const Landing = () => {
                 }}
                 flexWrap="wrap"
             >
-                {/* <MovieBox/>
-                <MovieBox/>
-                <MovieBox/>
-                <MovieBox/>
-                <MovieBox/>
-                <MovieBox/>
-                <MovieBox/>
-                <MovieBox/>
-                <MovieBox/>
-                <MovieBox/>
-                <MovieBox/> */}
-                {movies &&
-                    movies?.map((movieData, index) => {
-                        if (movies.length === index + 1) {
-                            return (
-                                <React.Fragment>
-                                    <MovieBox
-                                        ref={lastMovieElement}
-                                        key={`movie-${movieData.Title}`}
-                                        {...movieData}
-                                    />
-                                    <div
-                                        ref={lastMovieElement}
-                                        style={{
-                                            height: "15vh",
-                                            width: "100%",
-                                        }}
-                                    />
-                                </React.Fragment>
-                            );
-                        } else {
-                            return (
+            {movies &&
+                movies?.map((movieData, index) => {
+                    if (movies.length === index + 1) {
+                        return (
+                            <React.Fragment>
                                 <MovieBox
-                                    key={`movie-${movieData.Title}`}
+                                    // ref={lastMovieElement}
+                                    key={index}
                                     {...movieData}
                                 />
-                            );
-                        }
-                    })}
+                                <div
+                                    ref={lastMovieElement}
+                                    style={{
+                                        height: "15vh",
+                                        width: "100%",
+                                    }}
+                                />
+                            </React.Fragment>
+                        );
+                    } else {
+                        return (
+                            <MovieBox
+                                key={`movie-${movieData.Title}`}
+                                {...movieData}
+                            />
+                        );
+                    }
+                })}
             </Box>
             {/* { loading && ToastExample} */}
             <ToastContainer />
