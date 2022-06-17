@@ -16,22 +16,11 @@ export const set_total_result = (data) => ({
     type: "SET_TOTAL_RESULT",
     data,
 });
-// export const set_movies = (key, data) => ({
-//     type: "SET_MOVIES",
-//     key,
-//     data,
-// });
 
-export const set_detail_movie = (key, data) => ({
+export const set_detail_movie = (data) => ({
     type: "SET_DETAIL_MOVIE",
     data,
 });
-
-// export const set_total_movie = (key, data) => ({
-//     type: "SET_TOTAL_MOVIES",
-//     key,
-//     data,
-// });
 
 export const set_page = (data) => ({
     type: "SET_PAGE",
@@ -65,13 +54,11 @@ const OMDB_API = process.env.REACT_APP_OMDB_API_KEY
 export const getMovieDetail = (imdbID) => async (dispatch) => {
     try {
         const data = await axios.get(`?apikey=${OMDB_API}&i=${imdbID}`)
-        console.log({data})
         if(data.Response !== "False"){
-            
-            dispatch(set_detail_movie("movieDetail", data))
+            dispatch(set_detail_movie(data))
         }
     } catch (error) {
-        console.log({error})
+        // console.log({error})
         throw new Error(error)
     }
 }

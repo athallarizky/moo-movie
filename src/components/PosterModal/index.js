@@ -10,7 +10,8 @@ import {
     Button,
     useDisclosure,
     Box,
-    Image
+    Image,
+    Text
 } from "@chakra-ui/react";
 
 const PosterModal = ({ children }) => {
@@ -18,19 +19,23 @@ const PosterModal = ({ children }) => {
     const { movieDetail } = useSelector(state => state.movies )
     return (
         <>
-            <Box className="asdaads" w="90%" h="55vh" onClick={onOpen}>{ children }</Box>
+            <Box w="90%" h="55vh" onClick={onOpen}>{ children }</Box>
 
-            <Modal isOpen={isOpen} onClose={onClose}>
+            <Modal isOpen={isOpen} onClose={onClose} padding="2vmin !important">
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader textAlign="center">{movieDetail?.Title}</ModalHeader>
+                    <ModalHeader textAlign="center">
+                        <Text fontSize="3xl">
+                        {movieDetail?.Title}
+                        </Text>
+                    </ModalHeader>
                     <ModalCloseButton />
                     <ModalBody margin="0 auto">
                         <Image src={movieDetail?.Poster} alt="poster"/>
                     </ModalBody>
 
                     <ModalFooter display="flex" justifyContent="center">
-                        <Button colorScheme="teal" mr={3} onClick={onClose}>
+                        <Button colorScheme="teal" mr={3} onClick={onClose} width="30%" marginBottom="2vh !important">
                             Close
                         </Button>
                     </ModalFooter>

@@ -2,7 +2,8 @@ import React from "react";
 import { useHistory } from 'react-router-dom'
 
 import { Box, Text, Tag } from "@chakra-ui/react";
-import { text_truncate  } from 'utils/textTruncate'
+import { text_truncate, isValidHttpUrl  } from 'utils/helpers'
+import ImgNotFound from 'assets/images/ImgNotFound.jpg'
 
 const MovieBox = (movieData) => {
     const history = useHistory()
@@ -36,9 +37,9 @@ const MovieBox = (movieData) => {
             <Box
                 width="100%"
                 height="40vh"
-                backgroundImage={movieData?.Poster}
+                backgroundImage={ isValidHttpUrl(movieData?.Poster) ? movieData?.Poster : ImgNotFound}
                 backgroundRepeat="no-repeat"
-                backgroundSize="100% 100%"
+                backgroundSize="100% 100% !important"
                 marginBottom="1vh"
             />
             <Box height="28%" position="relative">

@@ -1,6 +1,6 @@
-import React, { useRef, useCallback, useState, useEffect } from "react";
+import React, { useRef, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux'
-import { set_movies, set_search_key, set_page } from 'redux/actions/movies'
+import { set_search_key, set_page } from 'redux/actions/movies'
 // Libraries
 import { Box } from "@chakra-ui/react";
 import { ToastContainer, toast } from "react-toastify";
@@ -14,25 +14,15 @@ import MovieBox from "components/MovieBox";
 import SearchBox from "components/SearchBox";
 
 const Landing = () => {
-    // const [query, setQuery] = useState("");
-    // const [pageNumber, setPageNumber] = useState(1);
     const dispatch = useDispatch()
     const { searchKey, activePage } = useSelector(state => state.movies)
 
-    const { movies, loading, error, totalResult } = useMovieSearch(
-        activePage
-    );
-
-    useEffect(() => {
-        if(movies?.length){
-            window.localStorage.setItem("movies", JSON.stringify(movies))
-        }
-    }, [movies])
+    const { movies, loading, error, totalResult } = useMovieSearch(activePage);
 
     useEffect(() => {
         if (loading && movies.length) {
             const customId = "toastify-landing";
-            toast.info("Fetching Data...", {
+            toast.info(`Fetching Data... (${activePage})`, {
                 position: "bottom-center",
                 autoClose: 1000,
                 hideProgressBar: true,
@@ -53,31 +43,27 @@ const Landing = () => {
                 toastId: customId,
             });
         }
-    }, [loading, error, movies]);
+    }, [loading, error, movies, activePage]);
 
     const observer = useRef();
     const lastMovieElement = useCallback(
         (node) => {
-            console.log("DASADSADSASDADS")
             if (loading) return;
             if (observer.current) observer.current.disconnect();
             observer.current = new IntersectionObserver((entries) => {
                 if (entries[0].isIntersecting && (totalResult !== movies.length)) {
-                    console.log('activePage', activePage)
                     dispatch(set_page(activePage + 1))
-                    // setPageNumber(activePage + 1);
                 }
             });
             if (node) observer.current.observe(node);
         },
-        [loading, movies, totalResult, activePage]
+        [loading, movies, totalResult, activePage, dispatch]
     );
 
     function handleSearch(e) {
         dispatch(set_search_key(e.target.value))
         dispatch(set_page(activePage + 1))
-        // setQuery(e.target.value);
-        // setPageNumber(1);
+
     }
 
     return (
@@ -110,10 +96,10 @@ const Landing = () => {
                 movies?.map((movieData, index) => {
                     if (movies.length === index + 1) {
                         return (
-                            <React.Fragment>
+                            <React.Fragment key={index}>
                                 <MovieBox
                                     // ref={lastMovieElement}
-                                    key={index}
+                                    
                                     {...movieData}
                                 />
                                 <div
@@ -128,7 +114,7 @@ const Landing = () => {
                     } else {
                         return (
                             <MovieBox
-                                key={`movie-${movieData.Title}`}
+                                key={`movie-${index}`}
                                 {...movieData}
                             />
                         );

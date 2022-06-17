@@ -3,12 +3,13 @@ import {
     BrowserRouter as Router,
     Route,
 } from "react-router-dom";
-import { Box } from "@chakra-ui/react";
+import { Box, Image } from "@chakra-ui/react";
 
 // Pages
 import Landing from "pages/Landing";
 import MovieDetail from "pages/MovieDetail";
-import SearchBox from "components/SearchBox";
+
+import MooLogo from 'assets/images/MooLogo.png'
 
 const App = () => {
     return (
@@ -29,8 +30,8 @@ const App = () => {
                 zIndex="99"
                 shadow="base"
             >
-                <Box className="searchbox-wrapper" width="50%">
-                    <SearchBox />
+                <Box className="searchbox-wrapper" width="20vmin">
+                    <Image src={MooLogo} alt="logo" objectFit='cover'/>
                 </Box>
             </Box>
 

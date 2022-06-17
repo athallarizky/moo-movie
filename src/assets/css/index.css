@@ -61,9 +61,23 @@ border: 1px solid rgba(255, 255, 255, 0.11);
 
 .chakra-modal__content-container{
     display: flex;
-    align-items: center;
+    align-items: center !important;
+    padding: 5% 2% !important;
 }
 
+.chakra-modal__close-btn{
+    display: none !important;
+}
+
+.chakra-modal__header{
+    margin-bottom: 2vh !important;
+}
+.chakra-modal__body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2vh !important;
+}
 .Toastify__toast-icon{
     margin:0 2vmin !important;
 }
