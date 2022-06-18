@@ -41,6 +41,7 @@ const MovieBox = (movieData) => {
                 backgroundRepeat="no-repeat"
                 backgroundSize="100% 100% !important"
                 marginBottom="1vh"
+                data-testid="divMoviePoster"
             />
             <Box height="28%" position="relative">
                 <Text
@@ -51,6 +52,7 @@ const MovieBox = (movieData) => {
                     fontWeight="bold"
                     textAlign="center"
                     marginBottom="1vmin !important"
+                    data-testid="divMovieTitle"
                 >
                     {movieData && text_truncate(movieData?.Title)} ({movieData.Year})
                 </Text>
@@ -61,6 +63,7 @@ const MovieBox = (movieData) => {
                     bottom="0"
                     left="50%"
                     transform="translate(-50%, -50%)"
+                    data-testid="divMovieTagType"
                 >
                     {/* {movieData?.Year} */}
                     <Tag
@@ -70,7 +73,7 @@ const MovieBox = (movieData) => {
                         colorScheme="teal"
                         padding="1vmin 2vmin !important"
                     >
-                        Movie
+                        { movieData?.Type }
                     </Tag>
                 </Text>
             </Box>

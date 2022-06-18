@@ -25,17 +25,17 @@ const PosterModal = ({ children }) => {
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader textAlign="center">
-                        <Text fontSize="3xl">
-                        {movieDetail?.Title}
+                        <Text fontSize="3xl" data-testid="divMovieTitle">
+                            {movieDetail?.Title}
                         </Text>
                     </ModalHeader>
                     <ModalCloseButton />
                     <ModalBody margin="0 auto">
-                        <Image src={movieDetail?.Poster} alt="poster"/>
+                        <Image src={movieDetail?.Poster} alt="poster" data-testid="divMoviePoster"/>
                     </ModalBody>
 
                     <ModalFooter display="flex" justifyContent="center">
-                        <Button colorScheme="teal" mr={3} onClick={onClose} width="30%" marginBottom="2vh !important">
+                        <Button colorScheme="teal" mr={3} onClick={onClose} width="30%" marginBottom="2vh !important" data-testid="divMovieBtn">
                             Close
                         </Button>
                     </ModalFooter>

@@ -31,6 +31,7 @@ const SearchBox = ({ handleChange, inputVal}) => {
                 onChange={handleChange}
                 background="#FFF"
                 borderRadius="0"
+                data-testid="inputForm"
             />
             </InputGroup>
         </Box>
