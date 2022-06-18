@@ -36,8 +36,9 @@ const MovieDetail = () => {
 
     const mapTag = (genres) => {
         const genre = genres?.split(",");
-        return genre.map((g) => (
+        return genre.map((g, index) => (
             <Tag
+                key={index}
                 size="md"
                 background="teal"
                 color="#FFFFFF"

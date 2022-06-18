@@ -28,6 +28,9 @@ export default function useMovieSearch(pageNumber) {
             })
                 .then((res) => {
                     if (res?.data.Response !== "False") {
+                        // const mapMovieTitle = movies.map((movie) => movie.Title)
+                        // const onlyTitle = [...new Set([...movies, ...res.data.Search.map(b => b.Title)])]
+                        // console.log(mapMovieTitle)
                         const updateData = movies.concat(res.data.Search)
                         dispatch(set_movies(updateData));
                         dispatch(set_total_result(parseInt(res.data.totalResults)))
