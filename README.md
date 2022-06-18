@@ -1,3 +1,28 @@
+# How To Install
+
+1. git clone ...
+2. npm install
+3. npm start
+
+# Test Case
+
+## Feature
+    [IMPLEMENTED] Display List of movies
+    [IMPLEMENTED] Use Infinite Scroll tanpa plugin untuk jumlah search result yg panjang > 5
+    [IMPLEMENTED] Search movies by keyword
+    [IMPLEMENTED] Single Page for Single Movie Detail
+    [IMPLEMENTED, on /details/movieId] Show Movie Poster in a popup modal window when image from the list is clicked
+    [IMPLEMENTED, little bit] Unit test for components
+    [Not Yet] Autocomplete search box implementation is a big plus
+
+## Tech Stack
+    [IMPLEMENTED] ReactJS
+    [IMPLEMENTED] Redux
+    [IMPLEMENTED] Axios
+    [IMPLEMENTED] Good, sensible file structuring that promotes modularity and good separation of logical/UI layers
+    [IMPLEMENTED, little bit] Written Test Cases for the components
+    [IMPLEMENTED, inside fetching data] Showing some display of React Hooks knowledge is a plus
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
