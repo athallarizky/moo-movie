@@ -13,6 +13,8 @@ import {
     Image,
     Text
 } from "@chakra-ui/react";
+import { isValidHttpUrl } from 'utils/helpers'
+import ImgNotFound from 'assets/images/ImgNotFound.jpg'
 
 const PosterModal = ({ children }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -26,12 +28,12 @@ const PosterModal = ({ children }) => {
                 <ModalContent>
                     <ModalHeader textAlign="center">
                         <Text fontSize="3xl" data-testid="divMovieTitle">
-                            {movieDetail?.Title}
+                            { movieDetail?.Title}
                         </Text>
                     </ModalHeader>
                     <ModalCloseButton />
                     <ModalBody margin="0 auto">
-                        <Image src={movieDetail?.Poster} alt="poster" data-testid="divMoviePoster"/>
+                        <Image src={isValidHttpUrl(movieDetail?.Poster) ? movieDetail?.Poster : ImgNotFound} alt="poster" data-testid="divMoviePoster"/>
                     </ModalBody>
 
                     <ModalFooter display="flex" justifyContent="center">

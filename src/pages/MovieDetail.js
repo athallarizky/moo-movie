@@ -16,6 +16,10 @@ import {
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import PosterModal from "components/PosterModal";
 
+import { isValidHttpUrl } from 'utils/helpers'
+
+import ImgNotFound from 'assets/images/ImgNotFound.jpg'
+
 const MovieDetail = () => {
     const dispatch = useDispatch();
     const { movieDetail } = useSelector((state) => state.movies);
@@ -105,7 +109,7 @@ const MovieDetail = () => {
                             className="poster-wrapper "
                             width="100%"
                             height="100%"
-                            backgroundImage={movieDetail?.Poster}
+                            backgroundImage={isValidHttpUrl(movieDetail?.Poster) ? movieDetail?.Poster : ImgNotFound}
                             backgroundRepeat="no-repeat"
                             backgroundSize="100% 100%"
                         />
