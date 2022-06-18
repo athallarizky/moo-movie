@@ -1,8 +1,8 @@
 import React, { useRef, useCallback, useEffect } from "react";
-import { useDispatch, useSelector } from 'react-redux'
-import { set_search_key, set_page } from 'redux/actions/movies'
+import { useDispatch, useSelector } from "react-redux";
+import { set_search_key, set_page } from "redux/actions/movies";
 // Libraries
-import { Box } from "@chakra-ui/react";
+import { Box, Text, Spinner } from "@chakra-ui/react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -14,8 +14,8 @@ import MovieBox from "components/MovieBox";
 import SearchBox from "components/SearchBox";
 
 const Landing = () => {
-    const dispatch = useDispatch()
-    const { searchKey, activePage } = useSelector(state => state.movies)
+    const dispatch = useDispatch();
+    const { searchKey, activePage } = useSelector((state) => state.movies);
 
     const { movies, loading, error, totalResult } = useMovieSearch(activePage);
 
@@ -51,8 +51,11 @@ const Landing = () => {
             if (loading) return;
             if (observer.current) observer.current.disconnect();
             observer.current = new IntersectionObserver((entries) => {
-                if (entries[0].isIntersecting && (totalResult !== movies.length)) {
-                    dispatch(set_page(activePage + 1))
+                if (
+                    entries[0].isIntersecting &&
+                    totalResult !== movies.length
+                ) {
+                    dispatch(set_page(activePage + 1));
                 }
             });
             if (node) observer.current.observe(node);
@@ -61,9 +64,8 @@ const Landing = () => {
     );
 
     function handleSearch(e) {
-        dispatch(set_search_key(e.target.value))
-        dispatch(set_page(activePage + 1))
-
+        dispatch(set_search_key(e.target.value));
+        dispatch(set_page(activePage + 1));
     }
 
     return (
@@ -92,34 +94,49 @@ const Landing = () => {
                 }}
                 flexWrap="wrap"
             >
-            {movies &&
-                movies?.map((movieData, index) => {
-                    if (movies.length === index + 1) {
-                        return (
-                            <React.Fragment key={index}>
+                {movies &&
+                    movies?.map((movieData, index) => {
+                        if (movies.length === index + 1) {
+                            return (
+                                <React.Fragment key={index}>
+                                    <MovieBox
+                                        // ref={lastMovieElement}
+
+                                        {...movieData}
+                                    />
+                                    <div
+                                        ref={lastMovieElement}
+                                        style={{
+                                            height: "15vh",
+                                            width: "100%",
+                                        }}
+                                    />
+                                </React.Fragment>
+                            );
+                        } else {
+                            return (
                                 <MovieBox
-                                    // ref={lastMovieElement}
-                                    
+                                    key={`movie-${index}`}
                                     {...movieData}
                                 />
-                                <div
-                                    ref={lastMovieElement}
-                                    style={{
-                                        height: "15vh",
-                                        width: "100%",
-                                    }}
-                                />
-                            </React.Fragment>
-                        );
-                    } else {
-                        return (
-                            <MovieBox
-                                key={`movie-${index}`}
-                                {...movieData}
-                            />
-                        );
-                    }
-                })}
+                            );
+                        }
+                    })}
+                {!movies.length && (
+                    <Box
+                        height="60vh"
+                        width="100%"
+                        display="flex"
+                        justifyContent="center"
+                        alignItems="center"
+                    >
+                        {searchKey !== "" ? (
+                            loading ? (<Spinner size="lg"/>) : (<Text>Movies Not Found. Search Another Movie</Text>)
+                        ) : (
+                            <Text>Search Movie</Text>
+                        )}
+                    </Box>
+                )}
             </Box>
             {/* { loading && ToastExample} */}
             <ToastContainer />
